@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const PORT = 5005;
+const Cohort = require("./models/Cohort.model");
+const Student = require("./models/Student.model");
 
 // MONGOOSE CONNECTION
 
@@ -24,6 +26,7 @@ const app = express();
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
 // ...
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("public"));
@@ -37,11 +40,29 @@ app.use(cors());
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
-app.get("/api/cohorts", (req, res) => {
-  res.json(cohorts);
+
+app.get("/cohorts", (req, res) => {
+  Cohort.find({})
+    .then((cohorts) => {
+      console.log("Retrieved cohorts from DB:", cohorts);
+      res.json(cohorts);
+    })
+    .catch((err) => {
+      console.log("Error retrieving cohorts from DB:", err);
+      res.status(500).send({ error: "Failed to retrived cohorts from DB" });
+    });
 });
-app.get("/api/students", (req, res) => {
-  res.json(students);
+
+app.get("/students", (req, res) => {
+  Student.find({})
+    .then((students) => {
+      console.log("Retrieved students from DB:", students);
+      res.json(students);
+    })
+    .catch((err) => {
+      console.log("Error retrieving students from DB:", err);
+      res.status(500).send({ error: "Failed to retrived students from DB" });
+    });
 });
 
 // START SERVER
