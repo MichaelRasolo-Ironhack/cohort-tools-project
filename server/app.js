@@ -41,6 +41,8 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+app.use("/api/students", require("./routes/students.routes"));
+
 app.get("/cohorts", (req, res) => {
   Cohort.find({})
     .then((cohorts) => {
@@ -50,18 +52,6 @@ app.get("/cohorts", (req, res) => {
     .catch((err) => {
       console.log("Error retrieving cohorts from DB:", err);
       res.status(500).send({ error: "Failed to retrived cohorts from DB" });
-    });
-});
-
-app.get("/students", (req, res) => {
-  Student.find({})
-    .then((students) => {
-      console.log("Retrieved students from DB:", students);
-      res.json(students);
-    })
-    .catch((err) => {
-      console.log("Error retrieving students from DB:", err);
-      res.status(500).send({ error: "Failed to retrived students from DB" });
     });
 });
 
