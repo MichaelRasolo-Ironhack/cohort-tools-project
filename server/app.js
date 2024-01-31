@@ -4,8 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const PORT = 5005;
-
+const PORT = process.env.PORT;
 
 const cohortsRouter = require("./routes/cohorts.routes")
 // MONGOOSE CONNECTION
@@ -36,6 +35,12 @@ app.use(cors());
 // Devs Team - Start working on the routes here:
 // ...
 app.use('/api/cohorts', cohortsRouter);
+app.use("/api/students", require("./routes/students.routes"));
+
+app.get("/docs", (req, res) => {
+  res.sendFile(__dirname + "/views/docs.html");
+});
+
 
 // START SERVER
 app.listen(PORT, () => {
