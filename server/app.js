@@ -41,6 +41,8 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+// Handle errors on routes that don't exist or errors that you get in specific routes
+require("./errors/errorHandler")(app)
 
 // START SERVER
 app.listen(PORT, () => {
