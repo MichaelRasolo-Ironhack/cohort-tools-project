@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Cohort = require("../models/Cohort.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
+
 /* GET All Cohorts. */
 router.get("/", function (req, res, next) {
   const { campus, program } = req.query;
@@ -23,7 +25,7 @@ router.get("/", function (req, res, next) {
 });
 
 // POST Create a Cohort
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const {
       inProgress,
@@ -76,7 +78,7 @@ router.get("/:cohortId", async (req, res, next) => {
 });
 
 // PUT Update a cohort by ID
-router.put("/:cohortId", async (req, res, next) => {
+router.put("/:cohortId", isAuthenticated, async (req, res, next) => {
   try {
     const updatedCohort = await Cohort.findOneAndUpdate(
       { _id: req.params.cohortId },
@@ -90,7 +92,7 @@ router.put("/:cohortId", async (req, res, next) => {
 });
 
 // DELETE delete cohort by ID
-router.delete("/:cohortId", async (req, res, next) => {
+router.delete("/:cohortId", isAuthenticated, async (req, res, next) => {
   try {
     const result = await Cohort.deleteOne({ _id: req.params.cohortId });
 

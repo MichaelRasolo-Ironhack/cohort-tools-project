@@ -6,9 +6,10 @@ const authRouter = require('./auth.routes')
 const jwt = require("jsonwebtoken")
 const User = require("../models/User.model.js")
 
+router.use("/auth", authRouter)
+
 router.use("/students", studentsRouter)
 router.use("/cohorts", cohortsRouter)
-router.use("/auth", authRouter)
 
 
 module.exports = router

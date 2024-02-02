@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Student = require("../models/Student.model");
+const isAuthenticated = require('../middleware/isAuthenticated')
 
 // get all students
 router.get("/", async (req, res, next) => {
@@ -21,8 +22,9 @@ router.get("/:studentId", async (req, res, next) => {
   }
 });
 
+
 // update a student
-router.put("/:studentId", async (req, res, next) => {
+router.put("/:studentId",isAuthenticated,async (req, res, next) => {
   try {
     const updateStudent = await Student.findByIdAndUpdate(
       req.params.studentId,
@@ -36,7 +38,7 @@ router.put("/:studentId", async (req, res, next) => {
 });
 
 // delete a student
-router.delete("/:studentId", async (req, res, next) => {
+router.delete("/:studentId", isAuthenticated, async (req, res, next) => {
   try {
     const deleteStudent = await Student.findByIdAndDelete(req.params.id);
     res.status(204).json(deleteStudent);
