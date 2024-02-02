@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const PORT = process.env.PORT;
 
-const cohortsRouter = require("./routes/cohorts.routes");
 // MONGOOSE CONNECTION
 
 mongoose
@@ -33,8 +32,9 @@ app.use(cors());
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
 // ...
-app.use("/api/cohorts", cohortsRouter);
-app.use("/api/students", require("./routes/students.routes"));
+
+const indexRouter = require("./routes/index.routes");
+app.use('/api',indexRouter)
 
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
