@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Student = require("../models/Student.model");
-const isAuthenticated = require('../middleware/isAuthenticated')
+const isAuthenticated = require('../middleware/isAuthenticated');
+const Cohort = require("../models/Cohort.model");
 
 // get all students
 router.get("/", async (req, res, next) => {
@@ -19,6 +20,16 @@ router.get("/:studentId", async (req, res, next) => {
     res.status(200).json(oneStudent);
   } catch (error) {
     console.error("Error when getting one student", error);
+  }
+});
+
+// get one specific student
+router.get("/cohort/:cohortId", async (req, res, next) => {
+  try {
+    const cohortStudents = await Student.find({cohort: req.params.cohortId});
+    res.status(200).json(cohortStudents);
+  } catch (error) {
+    console.error("Error when getting all students from the cohort", error);
   }
 });
 
@@ -46,5 +57,7 @@ router.delete("/:studentId", isAuthenticated, async (req, res, next) => {
     console.error("Error when delete one student", error);
   }
 });
+
+
 
 module.exports = router;
