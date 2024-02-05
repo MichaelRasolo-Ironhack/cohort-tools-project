@@ -2,7 +2,7 @@ const User = require("../models/User.model");
 const jwt = require("jsonwebtoken");
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
 async function isAuthenticated(req, res, next) {
-  console.log(req);
+  console.log("================================================================",req.headers.authorization);
   try {
     const authHeaders = req.headers.authorization;
     if (!authHeaders) {

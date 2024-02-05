@@ -10,7 +10,7 @@ const studentSchema = new Schema({
   languages: [
     {
       type: String,
-      enum: ["English, Spanish, French, German, Portuguese, Dutch, Other"],
+      enum: ["English","Spanish","French","German","Portuguese","Dutch","Other"],
     },
   ],
   program: {
