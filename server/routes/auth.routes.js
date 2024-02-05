@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const isAuthenticated = require('../middleware/isAuthenticated')
+const isAuthenticated = require("../middleware/isAuthenticated");
+
 router.post("/signup", async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
@@ -66,14 +67,14 @@ router.post("/login", async (req, res, next) => {
       algorithm: "HS256",
     });
 
-    res.status(202).json(token);
+    res.status(202).json({ authToken: token });
   } catch (error) {
     next(error);
   }
 });
 
 router.get("/verify", isAuthenticated, (req, res) => {
-	res.json(req.user)
-})
+  res.json(req.user);
+});
 
 module.exports = router;

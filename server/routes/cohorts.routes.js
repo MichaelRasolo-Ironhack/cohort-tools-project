@@ -13,10 +13,10 @@ router.get("/", function (req, res, next) {
   if (program) {
     filters.program = program;
   }
-  console.log(filters);
+  // console.log(filters);
   Cohort.find(filters)
     .then((cohorts) => {
-      console.log("Retrieved cohorts from DB:", cohorts);
+      // console.log("Retrieved cohorts from DB:", cohorts);
       res.json(cohorts);
     })
     .catch((error) => {

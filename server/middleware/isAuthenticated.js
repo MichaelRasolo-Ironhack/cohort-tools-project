@@ -2,6 +2,7 @@ const User = require("../models/User.model");
 const jwt = require("jsonwebtoken");
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
 async function isAuthenticated(req, res, next) {
+  console.log(req);
   try {
     const authHeaders = req.headers.authorization;
     if (!authHeaders) {
@@ -10,13 +11,16 @@ async function isAuthenticated(req, res, next) {
     const token = authHeaders.replace("Bearer ", "");
     const payload = jwt.verify(token, SECRET_TOKEN, { algorithms: ["HS256"] });
 
-    const user = await User.findById(payload._id)
-    if (!user) return res.status(401).json({message:"You basically don't exist. There."})
-    req.user = user
-    next()
+    const user = await User.findById(payload._id);
+    if (!user)
+      return res
+        .status(401)
+        .json({ message: "You basically don't exist. There." });
+    req.user = user;
+    next();
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = isAuthenticated
+module.exports = isAuthenticated;

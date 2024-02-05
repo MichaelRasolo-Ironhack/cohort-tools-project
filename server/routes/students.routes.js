@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Student = require("../models/Student.model");
-const isAuthenticated = require('../middleware/isAuthenticated');
+const isAuthenticated = require("../middleware/isAuthenticated");
 const Cohort = require("../models/Cohort.model");
 
 // get all students
@@ -26,16 +26,15 @@ router.get("/:studentId", async (req, res, next) => {
 // get one specific student
 router.get("/cohort/:cohortId", async (req, res, next) => {
   try {
-    const cohortStudents = await Student.find({cohort: req.params.cohortId});
+    const cohortStudents = await Student.find({ cohort: req.params.cohortId });
     res.status(200).json(cohortStudents);
   } catch (error) {
     console.error("Error when getting all students from the cohort", error);
   }
 });
 
-
 // update a student
-router.put("/:studentId",isAuthenticated,async (req, res, next) => {
+router.put("/:studentId", isAuthenticated, async (req, res, next) => {
   try {
     const updateStudent = await Student.findByIdAndUpdate(
       req.params.studentId,
@@ -48,6 +47,27 @@ router.put("/:studentId",isAuthenticated,async (req, res, next) => {
   }
 });
 
+// create a student
+router.post("/", isAuthenticated, async (req, res, next) => {
+  try {
+    const newStudent = await Student.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      linkedinUrl: req.body.linkedinUrl,
+      languages: req.body.languages,
+      program: req.body.program,
+      background: req.body.background,
+      image: req.body.image,
+      cohort: req.body.cohort,
+    });
+    res.status(200).json(newStudent);
+  } catch (error) {
+    console.error("Error when create a student", error);
+  }
+});
+
 // delete a student
 router.delete("/:studentId", isAuthenticated, async (req, res, next) => {
   try {
@@ -57,7 +77,5 @@ router.delete("/:studentId", isAuthenticated, async (req, res, next) => {
     console.error("Error when delete one student", error);
   }
 });
-
-
 
 module.exports = router;
